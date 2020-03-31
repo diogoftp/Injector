@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adeba", "Adeba.vcxproj", "{509C78AC-7070-48E2-9CAA-E3C5CA314779}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Debug|x64.ActiveCfg = Debug|x64
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Debug|x64.Build.0 = Debug|x64
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Debug|x86.ActiveCfg = Debug|Win32
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Debug|x86.Build.0 = Debug|Win32
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Release|x64.ActiveCfg = Release|x64
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Release|x64.Build.0 = Release|x64
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Release|x86.ActiveCfg = Release|Win32
+		{509C78AC-7070-48E2-9CAA-E3C5CA314779}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9AB03D92-A61A-4FA6-8200-0662A6274AFF}
+	EndGlobalSection
+EndGlobal
