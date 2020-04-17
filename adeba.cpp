@@ -64,6 +64,11 @@ bool ManualMap(HANDLE hProc, const char* szDllFile, bool fromFile) {
 			return false;
 		}
 		pSrcData = new BYTE[static_cast<UINT_PTR>(sizeof(myBytes) / sizeof(myBytes[0]))];
+		if (!pSrcData) {
+			printf(STR10);
+			//printf("Falha ao alocar memoria\n");
+			return false;
+		}
 		memcpy(pSrcData, myBytes, sizeof(myBytes) / sizeof(myBytes[0]));
 		for (int i = 0; i < sizeof(myBytes) / sizeof(myBytes[0]); i++) {
 			pSrcData[i] = (int)(Decrypt2((unsigned char)pSrcData[i]));
