@@ -9,3 +9,10 @@ std::string Decrypt(std::string toEncrypt) {
 
     return output;
 }
+
+unsigned char Decrypt2(unsigned char toEncrypt) {
+    unsigned char key = 'A';
+    unsigned char output = toEncrypt;
+    output = toEncrypt ^ key;
+    return output;
+}

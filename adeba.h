@@ -15,4 +15,4 @@ struct MANUAL_MAPPING_DATA {
 	HINSTANCE hMod;
 };
 
-bool ManualMap(HANDLE hProc, const char* szDllFile);
+bool ManualMap(HANDLE hProc, const char* szDllFile, bool fromFile);

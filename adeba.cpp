@@ -1,5 +1,6 @@
 #include "adeba.h"
 #include "xor.h"
+#include "bytes.h"
 
 #define STR7 Decrypt({ 0x6, 0x69, 0x28, 0x3b, 0x38, 0x3c, 0x20, 0x3f, 0x26, 0x69, 0x27, 0x28, 0x26, 0x69, 0x2c, 0x31, 0x20, 0x3a, 0x3d, 0x2c, 0x43 }).c_str()
 #define STR8 Decrypt({ 0xf, 0x28, 0x25, 0x21, 0x28, 0x69, 0x28, 0x26, 0x69, 0x28, 0x2b, 0x3b, 0x20, 0x3b, 0x69, 0x26, 0x69, 0x28, 0x3b, 0x38, 0x3c, 0x20, 0x3f, 0x26, 0x73, 0x69, 0x6c, 0x11, 0x43 }).c_str()
@@ -14,47 +15,60 @@
 
 void __stdcall Shellcode(MANUAL_MAPPING_DATA* pData);
 
-bool ManualMap(HANDLE hProc, const char* szDllFile) {
+bool ManualMap(HANDLE hProc, const char* szDllFile, bool fromFile) {
 	BYTE* pSrcData = nullptr;
 	IMAGE_NT_HEADERS* pOldNtHeader = nullptr;
 	IMAGE_OPTIONAL_HEADER* pOldOptHeader = nullptr;
 	IMAGE_FILE_HEADER* pOldFileHeader = nullptr;
 	BYTE* pTargetBase = nullptr;
 
-	if (GetFileAttributesA(szDllFile) == INVALID_FILE_ATTRIBUTES) {
-		printf(STR7);
-		//printf("O arquivo nao existe\n");
-		return false;
-	}
+	if (fromFile) {
+		if (GetFileAttributesA(szDllFile) == INVALID_FILE_ATTRIBUTES) {
+			printf(STR7);
+			//printf("O arquivo nao existe\n");
+			return false;
+		}
 
-	std::ifstream File(szDllFile, std::ios::binary | std::ios::ate);
+		std::ifstream File(szDllFile, std::ios::binary | std::ios::ate);
 
-	if (File.fail()) {
-		printf(STR8, (DWORD)File.rdstate());
-		//printf("Falha ao abrir o arquivo: %X\n", (DWORD)File.rdstate());
+		if (File.fail()) {
+			printf(STR8, (DWORD)File.rdstate());
+			//printf("Falha ao abrir o arquivo: %X\n", (DWORD)File.rdstate());
+			File.close();
+			return false;
+		}
+
+		auto FileSize = File.tellg();
+		if (FileSize < 0x1000) {
+			printf(STR9);
+			//printf("O tamanho do arquivo e invalido\n");
+			File.close();
+			return false;
+		}
+
+		pSrcData = new BYTE[static_cast<UINT_PTR>(FileSize)];
+		if (!pSrcData) {
+			printf(STR10);
+			//printf("Falha ao alocar memoria\n");
+			File.close();
+			return false;
+		}
+
+		File.seekg(0, std::ios::beg);
+		File.read(reinterpret_cast<char*>(pSrcData), FileSize);
 		File.close();
-		return false;
 	}
 
-	auto FileSize = File.tellg();
-	if (FileSize < 0x1000) {
-		printf(STR9);
-		//printf("O tamanho do arquivo e invalido\n");
-		File.close();
-		return false;
+	else {
+		if (MessageBoxA(nullptr, "Deseja continuar?", nullptr, MB_YESNO | MB_DEFBUTTON2) != IDYES) {
+			return false;
+		}
+		pSrcData = new BYTE[static_cast<UINT_PTR>(sizeof(myBytes) / sizeof(myBytes[0]))];
+		memcpy(pSrcData, myBytes, sizeof(myBytes) / sizeof(myBytes[0]));
+		for (int i = 0; i < sizeof(myBytes) / sizeof(myBytes[0]); i++) {
+			pSrcData[i] = (int)(Decrypt2((unsigned char)pSrcData[i]));
+		}
 	}
-
-	pSrcData = new BYTE[static_cast<UINT_PTR>(FileSize)];
-	if (!pSrcData) {
-		printf(STR10);
-		//printf("Falha ao alocar memoria\n");
-		File.close();
-		return false;
-	}
-
-	File.seekg(0, std::ios::beg);
-	File.read(reinterpret_cast<char*>(pSrcData), FileSize);
-	File.close();
 
 	if (reinterpret_cast<IMAGE_DOS_HEADER*>(pSrcData)->e_magic != 0x5A4D) { //"MZ"
 		printf(STR11);

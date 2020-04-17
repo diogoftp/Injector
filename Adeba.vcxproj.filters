@@ -21,6 +21,9 @@
     <ClInclude Include="xor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bytes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="adeba.cpp">

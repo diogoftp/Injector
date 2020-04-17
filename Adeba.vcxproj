@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="adeba.h" />
+    <ClInclude Include="bytes.h" />
     <ClInclude Include="xor.h" />
   </ItemGroup>
   <ItemGroup>

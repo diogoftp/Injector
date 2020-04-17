@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 	char* szDllFile = argv[1];
 	char szProc[] = "*:.&g,1,"; //"csgo.exe"
 
-	if (argc != 2) {
+	if (argc > 2) {
 		printf(STR2);
 		//printf("Numero de argumentos invalido\n");
 		system("PAUSE");
@@ -71,8 +71,8 @@ int main(int argc, char* argv[]) {
 		system("PAUSE");
 		return 0;
 	}
-	
-	if (!ManualMap(hProc, szDllFile)) {
+
+	if (!ManualMap(hProc, szDllFile, argc == 2)) {
 		printf(STR6);
 		//printf("Falhou o manual\n");
 		CloseHandle(hProc);
